@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "corepack enable && yarn install --ignore-engines --network-timeout 600000",
+  "buildCommand": "yarn build"
+}

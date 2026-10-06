@@ -1,0 +1,9 @@
+IMPORTANT - ENV SECURITY
+
+This version includes a pre-filled .env.local file so the local app connects to your Supabase project immediately.
+
+Do not upload .env.local to GitHub.
+Do not paste the service role key publicly.
+Before deploying or sharing the repo, rotate/regenerate the service role key in Supabase because it has already been shared in chat.
+
+For local testing, this is okay. For production, add environment variables in Vercel instead of committing .env.local.

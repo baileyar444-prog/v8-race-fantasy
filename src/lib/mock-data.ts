@@ -1,0 +1,141 @@
+export const categories = ["A", "B", "C", "D", "E", "F"] as const;
+
+export const upcomingEventSlugs = [
+  "perth",
+  "ipswich",
+  "the-bend",
+  "bathurst",
+  "gold-coast",
+  "sandown",
+  "adelaide"
+] as const;
+
+export const fallbackEvents = [
+  {
+    id: "perth",
+    slug: "perth",
+    name: "Perth",
+    full_name: "Perth",
+    location: "Perth, WA",
+    lockout_at: "2026-08-01T11:45:00+10:00",
+    manual_lock: false,
+    number_of_races: 3,
+    event_multiplier: 1,
+    is_open_event: false,
+    sort_order: 1
+  },
+  {
+    id: "ipswich",
+    slug: "ipswich",
+    name: "Ipswich",
+    full_name: "Ipswich",
+    location: "Ipswich, QLD",
+    lockout_at: "2026-08-22T10:05:00+10:00",
+    manual_lock: false,
+    number_of_races: 3,
+    event_multiplier: 1,
+    is_open_event: false,
+    sort_order: 2
+  },
+  {
+    id: "the-bend",
+    slug: "the-bend",
+    name: "The Bend",
+    full_name: "The Bend",
+    location: "Tailem Bend, SA",
+    lockout_at: "2026-09-11T09:00:00+09:30",
+    manual_lock: true,
+    number_of_races: 1,
+    event_multiplier: 1,
+    is_open_event: false,
+    sort_order: 3
+  },
+  {
+    id: "bathurst",
+    slug: "bathurst",
+    name: "Bathurst",
+    full_name: "Bathurst",
+    location: "Bathurst, NSW",
+    lockout_at: "2026-10-09T15:15:00+10:00",
+    manual_lock: true,
+    number_of_races: 1,
+    event_multiplier: 2,
+    is_open_event: false,
+    sort_order: 4
+  },
+  {
+    id: "gold-coast",
+    slug: "gold-coast",
+    name: "Gold Coast",
+    full_name: "Gold Coast",
+    location: "Surfers Paradise, QLD",
+    lockout_at: "2026-10-24T11:30:00+10:00",
+    manual_lock: false,
+    number_of_races: 2,
+    event_multiplier: 1,
+    is_open_event: true,
+    sort_order: 5
+  },
+  {
+    id: "sandown",
+    slug: "sandown",
+    name: "Sandown",
+    full_name: "Sandown",
+    location: "Melbourne, VIC",
+    lockout_at: "2026-11-06T09:00:00+11:00",
+    manual_lock: false,
+    number_of_races: 2,
+    event_multiplier: 1,
+    is_open_event: false,
+    sort_order: 6
+  },
+  {
+    id: "adelaide",
+    slug: "adelaide",
+    name: "Adelaide",
+    full_name: "Adelaide",
+    location: "Adelaide, SA",
+    lockout_at: "2026-11-26T09:00:00+10:30",
+    manual_lock: false,
+    number_of_races: 3,
+    event_multiplier: 2,
+    is_open_event: false,
+    sort_order: 7
+  }
+];
+
+export const fallbackDrivers = [
+  { id: "matthew-payne", car_number: "19", driver_name: "Matthew Payne", team_name: "Penrite Racing", category: "A", points_position: 1, championship_points: 2490, wins: 5, poles: 7, is_active: true },
+  { id: "broc-feeney", car_number: "88", driver_name: "Broc Feeney", team_name: "Red Bull Ampol Racing", category: "A", points_position: 2, championship_points: 2285, wins: 6, poles: 4, is_active: true },
+  { id: "brodie-kostecki", car_number: "17", driver_name: "Brodie Kostecki", team_name: "Shell V-Power Racing Team", category: "A", points_position: 3, championship_points: 2271, wins: 8, poles: 6, is_active: true },
+  { id: "will-brown", car_number: "888", driver_name: "Will Brown", team_name: "Red Bull Ampol Racing", category: "A", points_position: 4, championship_points: 2146, wins: 1, poles: 2, is_active: true },
+  { id: "kai-allen", car_number: "26", driver_name: "Kai Allen", team_name: "Penrite Racing", category: "B", points_position: 5, championship_points: 2131, wins: 2, poles: 0, is_active: true },
+  { id: "cam-waters", car_number: "6", driver_name: "Cameron Waters", team_name: "Monster Castrol Racing", category: "B", points_position: 6, championship_points: 2055, wins: 2, poles: 3, is_active: true },
+  { id: "anton-de-pasquale", car_number: "18", driver_name: "Anton De Pasquale", team_name: "DEWALT Racing", category: "B", points_position: 7, championship_points: 1879, wins: 2, poles: 1, is_active: true },
+  { id: "chaz-mostert", car_number: "1", driver_name: "Chaz Mostert", team_name: "Mobil1 Optus Racing", category: "B", points_position: 8, championship_points: 1713, wins: 2, poles: 1, is_active: true },
+  { id: "ryan-wood", car_number: "2", driver_name: "Ryan Wood", team_name: "Mobil1 Truck Assist Racing", category: "C", points_position: 9, championship_points: 1638, wins: 1, poles: 2, is_active: true },
+  { id: "jack-le-brocq", car_number: "4", driver_name: "Jack Le Brocq", team_name: "Sherrin Rentals Racing", category: "C", points_position: 10, championship_points: 1547, wins: 0, poles: 0, is_active: true },
+  { id: "andre-heimgartner", car_number: "8", driver_name: "Andre Heimgartner", team_name: "R&J Batteries Racing", category: "C", points_position: 11, championship_points: 1423, wins: 1, poles: 1, is_active: true },
+  { id: "thomas-randle", car_number: "55", driver_name: "Thomas Randle", team_name: "Monster Castrol Racing", category: "C", points_position: 12, championship_points: 1404, wins: 0, poles: 0, is_active: true },
+  { id: "james-golding", car_number: "7", driver_name: "James Golding", team_name: "CoolDrive Racing", category: "D", points_position: 13, championship_points: 1393, wins: 0, poles: 1, is_active: true },
+  { id: "jayden-ojeda", car_number: "31", driver_name: "Jayden Ojeda", team_name: "PremiAir Racing", category: "D", points_position: 14, championship_points: 1363, wins: 0, poles: 0, is_active: true },
+  { id: "david-reynolds", car_number: "48", driver_name: "David Reynolds", team_name: "Snowy River Caravans Racing", category: "D", points_position: 15, championship_points: 1114, wins: 0, poles: 0, is_active: true },
+  { id: "zach-bates", car_number: "10", driver_name: "Zach Bates", team_name: "Bendix Racing", category: "D", points_position: 16, championship_points: 1069, wins: 0, poles: 1, is_active: true },
+  { id: "cameron-hill", car_number: "14", driver_name: "Cameron Hill", team_name: "Brad Jones Racing", category: "E", points_position: 17, championship_points: 1045, wins: 0, poles: 0, is_active: true },
+  { id: "cooper-murray", car_number: "777", driver_name: "Cooper Murray", team_name: "PremiAir Racing", category: "E", points_position: 18, championship_points: 972, wins: 0, poles: 0, is_active: true },
+  { id: "rylan-gray", car_number: "38", driver_name: "Rylan Gray", team_name: "Shell V-Power Racing Team", category: "E", points_position: 19, championship_points: 968, wins: 0, poles: 0, is_active: true },
+  { id: "aaron-cameron", car_number: "3", driver_name: "Aaron Cameron", team_name: "LIQUI MOLY BLAHST Racing", category: "E", points_position: 20, championship_points: 873, wins: 0, poles: 0, is_active: true },
+  { id: "jarrod-hughes", car_number: "99", driver_name: "Jarrod Hughes", team_name: "Erebus Motorsport", category: "F", points_position: 999, championship_points: 0, wins: 0, poles: 0, is_active: true },
+  { id: "macauley-jones", car_number: "96", driver_name: "Macauley Jones", team_name: "Brad Jones Racing", category: "F", points_position: 22, championship_points: 767, wins: 0, poles: 0, is_active: true },
+  { id: "jobe-stewart", car_number: "9", driver_name: "Jobe Stewart", team_name: "Erebus Motorsport", category: "F", points_position: 23, championship_points: 725, wins: 0, poles: 0, is_active: true },
+  { id: "jackson-walls", car_number: "11", driver_name: "Jackson Walls", team_name: "Objective Racing", category: "F", points_position: 24, championship_points: 711, wins: 0, poles: 0, is_active: true },
+  { id: "todd-hazelwood", car_number: "17", driver_name: "Todd Hazelwood", team_name: "Shell V-Power Racing Team", category: "F", points_position: 25, championship_points: 441, wins: 1, poles: 0, is_active: false },
+  { id: "aaron-seton", car_number: "10", driver_name: "Aaron Seton", team_name: "Bendix Racing", category: "F", points_position: 26, championship_points: 438, wins: 0, poles: 0, is_active: false },
+  { id: "reuben-goodall", car_number: "55", driver_name: "Reuben Goodall", team_name: "Monster Castrol Racing", category: "F", points_position: 27, championship_points: 328, wins: 0, poles: 0, is_active: false },
+  { id: "bayley-hall", car_number: "15", driver_name: "Bayley Hall", team_name: "Supercheap Auto Racing", category: "F", points_position: 28, championship_points: 309, wins: 0, poles: 0, is_active: false },
+  { id: "craig-lowndes", car_number: "15", driver_name: "Craig Lowndes", team_name: "Supercheap Auto Racing", category: "F", points_position: 29, championship_points: 262, wins: 0, poles: 0, is_active: false },
+  { id: "mark-winterbottom", car_number: "6", driver_name: "Mark Winterbottom", team_name: "Monster Castrol Racing", category: "F", points_position: 30, championship_points: 224, wins: 0, poles: 0, is_active: false },
+  { id: "ben-gomersall", car_number: "5", driver_name: "Ben Gomersall", team_name: "Tickford Autosport", category: "F", points_position: 31, championship_points: 105, wins: 0, poles: 0, is_active: false },
+  { id: "james-moffat", car_number: "34", driver_name: "James Moffat", team_name: "Garry Rogers Motorsport", category: "F", points_position: 32, championship_points: 67, wins: 0, poles: 0, is_active: false },
+  { id: "declan-fraser", car_number: "777", driver_name: "Declan Fraser", team_name: "PremiAir Racing", category: "F", points_position: 21, championship_points: 788, wins: 0, poles: 0, is_active: false }
+];

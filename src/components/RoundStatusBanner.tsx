@@ -202,41 +202,37 @@ export function RoundStatusBanner() {
           </div>
         </div>
 
-        <div className={`hidden flex-col gap-2 rounded-3xl border px-4 py-3 shadow-glow sm:flex lg:flex-row lg:items-center lg:justify-between ${finalsRound ? "finals-panel" : "border-track-orange/25 bg-track-orange/10"}`}>
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="rounded-2xl bg-black/25 px-4 py-2">
-              <div className="text-[10px] font-black uppercase tracking-[.18em] text-track-muted">Last round</div>
-              <div className="truncate text-lg font-black">
+        <div className={`hidden flex-wrap items-center justify-between gap-x-5 gap-y-2 rounded-2xl border px-3 py-2 shadow-glow sm:flex sm:px-4 xl:flex-nowrap ${finalsRound ? "finals-panel" : "border-track-orange/25 bg-track-orange/10"}`}>
+          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-4 gap-y-1">
+            <div className="min-w-0 shrink-0">
+              <div className="text-[10px] font-black uppercase tracking-wider text-track-muted">Last round</div>
+              <div className="truncate text-sm font-black">
                 {lastScored?.event ? `${lastScored.event.name}: ${points(lastScored.score.published_score)} pts` : "Awaiting first score"}
               </div>
             </div>
-
-            <div className="rounded-2xl bg-black/20 px-4 py-2">
-              <div className="text-[10px] font-black uppercase tracking-[.18em] text-track-muted">Rank</div>
-              <div className="truncate text-sm font-black">
+            <div className="hidden h-8 w-px shrink-0 bg-white/15 md:block" />
+            <div className="shrink-0">
+              <div className="text-[10px] font-black uppercase tracking-wider text-track-muted">Rank</div>
+              <div className="text-xs font-black">
                 {lastRoundRank ? `Round #${lastRoundRank}` : "Round —"} {myOverallRank ? `· Overall #${myOverallRank}` : ""}
               </div>
             </div>
-
-            <div className="rounded-2xl bg-black/20 px-4 py-2">
-              <div className="text-[10px] font-black uppercase tracking-[.18em] text-track-muted">Next up</div>
-              <div className="truncate text-sm font-black">
-                {openTeamSaved ? `${openEvent.name} team saved` : `Pick your ${openEvent.name} team`} · {finalsRound ? "Supercars Finals are live · " : ""}View live picks and differentials
-              </div>
+            <div className="hidden min-w-0 truncate text-xs font-bold text-track-muted 2xl:block">
+              {openTeamSaved ? `${openEvent.name} team saved` : `Pick your ${openEvent.name} team`} · Live picks and differentials
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 lg:justify-end">
-            <span className={`pill ${locked ? "border-orange-400/30 bg-orange-500/10 text-orange-100" : ""}`}>
-              {locked ? "Locked" : "Locks in"} {countdown}
+          <div className="flex w-full shrink-0 items-center gap-2 sm:w-auto">
+            <span className={`pill shrink-0 whitespace-nowrap !px-2 !py-1 text-[11px] ${locked ? "border-orange-400/30 bg-orange-500/10 text-orange-100" : ""}`}>
+              {locked ? "Locked" : `Locks ${countdown}`}
             </span>
-            <Link className="btn btn-primary px-4 py-2 text-sm" href="/pick-team">
+            <Link className="btn btn-primary shrink-0 px-3 py-1.5 text-xs" href="/pick-team">
               {openTeamSaved ? "Edit team" : "Pick team"}
             </Link>
-            <Link className="btn px-4 py-2 text-sm" href="/leaderboard">
+            <Link className="btn hidden shrink-0 px-3 py-1.5 text-xs lg:inline-flex" href="/leaderboard">
               Leaderboard
             </Link>
-            <Link className="btn px-4 py-2 text-sm" href="/leagues?join=GRID88">
+            <Link className="btn hidden shrink-0 px-3 py-1.5 text-xs 2xl:inline-flex" href="/leagues?join=GRID88">
               Invite friends
             </Link>
           </div>

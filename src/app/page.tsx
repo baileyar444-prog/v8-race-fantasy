@@ -27,7 +27,7 @@ export default function HomePage() {
       </section>
 
       <div className="grid grid-cols-3 gap-1 sm:gap-4 lg:grid-cols-3">
-        <div className="card"><div className="text-[10px] font-black text-track-muted sm:text-sm">Categories</div><div className="mt-1 text-2xl font-black sm:mt-2 sm:text-3xl">A–F</div><p className="mt-2 hidden text-sm text-track-muted sm:block">Gold Coast has a clean 24-driver field: four drivers in every category A–F.</p></div>
+        <div className="card"><div className="text-[10px] font-black text-track-muted sm:text-sm">Categories</div><div className="mt-1 text-2xl font-black sm:mt-2 sm:text-3xl">A–F</div><p className="mt-2 hidden text-sm text-track-muted sm:block">Sandown has 24 selectable drivers, with four drivers in every category A–F.</p></div>
         <div className="card"><div className="text-[10px] font-black text-track-muted sm:text-sm">Captain</div><div className="mt-1 text-2xl font-black sm:mt-2 sm:text-3xl">2x</div><p className="mt-2 hidden text-sm text-track-muted sm:block">Vice-captain scores 1.5x and must be a different driver.</p></div>
         <div className="card"><div className="text-[10px] font-black text-track-muted sm:text-sm">History</div><div className="mt-1 text-2xl font-black sm:mt-2 sm:text-3xl">Saved</div><p className="mt-2 hidden text-sm text-track-muted sm:block">Every event remembers picks, captaincy and points snapshots.</p></div>
       </div>
@@ -38,11 +38,11 @@ export default function HomePage() {
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
           <div>
             <div className="pill finals-pill mb-3">Supercars Finals</div>
-            <h2 className="text-2xl font-black sm:text-3xl">The Finals begin at the Gold Coast 500.</h2>
-            <p className="mt-2 text-sm text-track-muted sm:text-base">Bathurst is in the books. Now the pressure ramps up as the Supercars Finals begin on the Gold Coast. Pick your six drivers, lock in captain and vice-captain, and watch the live ownership trends.</p>
+            <h2 className="text-2xl font-black sm:text-3xl">The Supercars Finals continue at Sandown.</h2>
+            <p className="mt-2 text-sm text-track-muted sm:text-base">The Gold Coast 500 is complete and Sandown is the next Finals showdown. Pick your six drivers from the updated championship categories, choose captain and vice-captain, and follow the live ownership trends.</p>
           </div>
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap lg:justify-end">
-            <Link className="btn btn-primary px-3 py-2 text-sm" href="/pick-team">Pick Gold Coast</Link>
+            <Link className="btn btn-primary px-3 py-2 text-sm" href="/pick-team">Pick Sandown</Link>
             <Link className="btn px-3 py-2 text-sm" href="/leagues?join=GRID88">Invite friends</Link>
           </div>
         </div>
@@ -53,11 +53,11 @@ export default function HomePage() {
           <div>
             <div className="pill finals-pill mb-2">The Finals run home</div>
             <h2 className="text-xl font-black sm:text-2xl">V8 Race Fantasy Finals run</h2>
-            <p className="mt-1 hidden text-track-muted sm:block">Bathurst is done. The Gold Coast 500 is open now and starts the Supercars Finals. Live picks, captaincy stats and differentials are updating as teams are saved.</p>
+            <p className="mt-1 hidden text-track-muted sm:block">Gold Coast scores are published and Sandown is now open for fantasy selections. Follow the live picks, captaincy trends and differentials ahead of lockout.</p>
           </div>
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             <Link className="btn px-2 py-2 text-xs sm:px-4 sm:text-sm" href="/round-preview">Preview</Link>
-            <Link className="btn btn-primary px-2 py-2 text-xs sm:px-4 sm:text-sm" href="/pick-team">Pick Gold Coast</Link>
+            <Link className="btn btn-primary px-2 py-2 text-xs sm:px-4 sm:text-sm" href="/pick-team">Pick Sandown</Link>
           </div>
         </div>
         <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-3 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 xl:grid-cols-6">

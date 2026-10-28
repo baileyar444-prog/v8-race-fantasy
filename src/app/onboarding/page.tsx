@@ -237,7 +237,14 @@ export default function OnboardingPage() {
   }, [captain, vice, selectedIds.join("|")]);
 
   const profileComplete = Boolean(displayName.trim() && garageName.trim());
-  const teamComplete = selectedIds.length === 6 && Boolean(captain) && Boolean(vice) && captain !== vice && !eventLocked && liveEventReady && liveRosterReady;
+  const invalidCategoryPicks = categories.filter((category) => {
+    const driverId = picks[category];
+    return Boolean(driverId && !drivers.some((driver) => driver.id === driverId && driver.category === category));
+  });
+  const allCategoriesValid = categories.every((category) =>
+    Boolean(picks[category] && drivers.some((driver) => driver.id === picks[category] && driver.category === category))
+  );
+  const teamComplete = allCategoriesValid && new Set(selectedIds).size === 6 && Boolean(captain) && Boolean(vice) && captain !== vice && !eventLocked && liveEventReady && liveRosterReady;
 
   const categoryDrivers = useMemo(
     () => drivers.filter((driver) => driver.category === activeCategory),
@@ -251,7 +258,7 @@ export default function OnboardingPage() {
   const checklist = [
     ...categories.map((category) => ({
       label: `Category ${category}`,
-      complete: Boolean(picks[category])
+      complete: Boolean(picks[category]) && !invalidCategoryPicks.includes(category)
     })),
     { label: "Captain selected", complete: Boolean(captain) },
     { label: "Vice-captain selected", complete: Boolean(vice) },
@@ -408,11 +415,12 @@ export default function OnboardingPage() {
 
     try {
       if (!userId) throw new Error("You are not logged in.");
-      if (!liveEventReady || !openEvent?.id) throw new Error("Gold Coast is not available from the live event database yet. Refresh and try again.");
-      if (!liveRosterReady) throw new Error("The live Gold Coast driver roster is incomplete. Refresh after the roster repair has been applied.");
+      if (!liveEventReady || !openEvent?.id) throw new Error("The current round is unavailable from the live event database. Refresh and try again.");
+      if (!liveRosterReady) throw new Error("The live driver roster is unavailable. Refresh and try again.");
       if (eventLocked) throw new Error("This round is locked. Race Control must unlock it before teams can be changed.");
       if (captain && vice && captain === vice) throw new Error("Captain and vice-captain must be different drivers.");
-      if (!teamComplete) throw new Error("Pick six drivers, then choose a different captain and vice-captain.");
+      if (invalidCategoryPicks.length) throw new Error(`Driver categories have changed. Review ${invalidCategoryPicks.join(", ")} and save again.`);
+      if (!teamComplete) throw new Error("Pick one eligible driver per category, then choose a different captain and vice-captain.");
 
       if (profileComplete) {
         await saveProfileRow();
@@ -497,7 +505,7 @@ export default function OnboardingPage() {
             <div className="error mb-4">
               {!liveEventReady
                 ? "Live event data is not ready. Gold Coast must be marked as the open event in Supabase."
-                : "The live Gold Coast roster is incomplete. Team selection is paused until all 24 active drivers are available."}
+                : "The live driver roster is incomplete. Team selection is paused until all 24 active drivers are available."}
             </div>
           ) : null}
 
@@ -549,16 +557,26 @@ export default function OnboardingPage() {
             </p>
           </div>
 
+          {liveRosterReady && invalidCategoryPicks.length > 0 ? (
+            <div role="alert" className="mb-4 rounded-2xl border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm">
+              <div className="font-black text-amber-100">Review your saved team after the category update</div>
+              <p className="mt-1 text-track-muted">
+                {invalidCategoryPicks.length === 1 ? "Category" : "Categories"} {invalidCategoryPicks.join(", ")} {invalidCategoryPicks.length === 1 ? "contains" : "contain"} a driver who has moved category.
+                Choose a current eligible driver in each affected category and save again before lockout. Your existing saved choices remain unchanged until you save.
+              </p>
+            </div>
+          ) : null}
+
           <div className="mb-4 grid grid-cols-6 gap-1 sm:gap-2">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
                 disabled={eventLocked || !liveRosterReady || !liveEventReady}
-                className={`rounded-xl border px-1 py-2 text-center font-black sm:rounded-2xl sm:p-4 ${activeCategory === category ? "border-track-orange bg-track-orange/15" : "border-white/10 bg-white/5"}`}
+                className={`rounded-xl border px-1 py-2 text-center font-black sm:rounded-2xl sm:p-4 ${invalidCategoryPicks.includes(category) ? "border-amber-400/70 bg-amber-400/15" : activeCategory === category ? "border-track-orange bg-track-orange/15" : "border-white/10 bg-white/5"}`}
               >
                 <div className="text-lg sm:text-2xl">{category}</div>
-                <div className="hidden text-xs text-track-muted sm:block">{picks[category] ? "Picked" : "Choose"}</div>
+                <div className="hidden text-xs text-track-muted sm:block">{invalidCategoryPicks.includes(category) ? "Review" : picks[category] ? "Picked" : "Choose"}</div>
               </button>
             ))}
           </div>
@@ -627,7 +645,7 @@ export default function OnboardingPage() {
           </div>
 
           <button className="btn btn-primary sticky bottom-24 z-30 mt-5 w-full shadow-glow sm:static" disabled={!teamComplete || savingTeam} onClick={saveTeam}>
-            {savingTeam ? "Saving team..." : eventLocked ? "Round locked" : "Save team"}
+            {savingTeam ? "Saving team..." : eventLocked ? "Round locked" : invalidCategoryPicks.length ? "Review changed categories" : "Save team"}
           </button>
 
           <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4">

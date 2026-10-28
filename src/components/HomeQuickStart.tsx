@@ -20,7 +20,7 @@ export function HomeQuickStart() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [openEventName, setOpenEventName] = useState("Gold Coast");
+  const [openEventName, setOpenEventName] = useState("");
 
   useEffect(() => {
     async function load() {
@@ -35,7 +35,7 @@ export function HomeQuickStart() {
 
       const rows = eventRows ?? [];
       const current = selectCurrentEvent(rows);
-      if (current) setOpenEventName(current.name ?? current.full_name ?? "Gold Coast");
+      if (current) setOpenEventName(current.name ?? current.full_name ?? "");
     }
 
     load();
@@ -161,7 +161,7 @@ export function HomeQuickStart() {
           </p>
         </div>
         <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-          <Link className="btn btn-primary px-2 py-2 text-xs sm:px-4 sm:text-sm" href="/pick-team">{`Pick ${openEventName}`}</Link>
+          <Link className="btn btn-primary px-2 py-2 text-xs sm:px-4 sm:text-sm" href="/pick-team">{openEventName ? `Pick ${openEventName}` : "Pick team"}</Link>
           <Link className="btn px-2 py-2 text-xs sm:px-4 sm:text-sm" href="/drivers">Driver stats</Link>
         </div>
       </div>

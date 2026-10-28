@@ -42,6 +42,8 @@ type TeamPick = {
     driver_name: string;
     team_name: string;
     car_number: string;
+    category: string;
+    is_active: boolean;
   } | null;
 };
 
@@ -205,7 +207,7 @@ export function HomeDashboard() {
 
           const { data: pickData } = await supabase
             .from("fantasy_team_picks")
-            .select("category,driver_id,drivers(driver_name,team_name,car_number)")
+            .select("category,driver_id,drivers(driver_name,team_name,car_number,category,is_active)")
             .eq("fantasy_team_id", teamData.id)
             .order("category");
 
@@ -304,7 +306,10 @@ export function HomeDashboard() {
   const eventName = openEvent?.name ?? openEvent?.full_name ?? "Open event";
   const finalsRound = ["gold coast", "sandown", "adelaide"].some((name) => eventName.toLowerCase().includes(name));
   const status = statusForOpenEvent(openEvent, team, teamPicks.length);
-  const teamComplete = teamPicks.length >= 6;
+  const stalePicks = teamPicks.filter((pick) =>
+    !pick.drivers || pick.drivers.category !== pick.category || !pick.drivers.is_active
+  );
+  const teamComplete = teamPicks.length >= 6 && stalePicks.length === 0;
 
   return (
     <div className={`card ${finalsRound ? "finals-divider" : ""}`} style={{ background: profile.banner_colour ? `linear-gradient(135deg, ${profile.banner_colour}22, rgba(17,24,39,.86))` : undefined }}>
@@ -335,6 +340,18 @@ export function HomeDashboard() {
 
         <LockoutCountdown lockoutAt={openEvent?.lockout_at} manualLock={openEvent?.manual_lock} />
       </div>
+
+      {stalePicks.length > 0 ? (
+        <div role="alert" className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-400/40 bg-amber-400/10 p-3 text-sm">
+          <div>
+            <div className="font-black text-amber-100">Your {eventName} team needs a category update</div>
+            <p className="mt-1 text-track-muted">
+              {stalePicks.length} saved {stalePicks.length === 1 ? "pick no longer matches" : "picks no longer match"} the current driver categories. Review and resave before lockout.
+            </p>
+          </div>
+          <Link className="btn btn-primary px-3 py-2 text-xs" href="/pick-team">Review team</Link>
+        </div>
+      ) : null}
 
       <div className="mt-4 grid gap-2 sm:gap-3 lg:grid-cols-4">
         <div className="rounded-xl border border-white/10 bg-black/20 p-3 sm:rounded-2xl sm:p-4 lg:col-span-2">
@@ -433,9 +450,9 @@ export function HomeDashboard() {
               const isVice = pick.driver_id === team?.vice_captain_driver_id;
 
               return (
-                <div key={pick.category} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div key={pick.category} className={`rounded-2xl border bg-white/5 p-4 ${pick.drivers?.category !== pick.category || !pick.drivers?.is_active ? "border-amber-400/50" : "border-white/10"}`}>
                   <div className="mb-2 flex items-start justify-between gap-3">
-                    <div className="text-sm font-black text-track-muted">Category {pick.category}</div>
+                    <div className="text-sm font-black text-track-muted">Category {pick.category}{pick.drivers?.category !== pick.category || !pick.drivers?.is_active ? " · Review" : ""}</div>
                     {isCaptain ? <span className="pill">C 2x</span> : isVice ? <span className="pill">VC 1.5x</span> : null}
                   </div>
                   <div className="font-black">#{pick.drivers?.car_number} {pick.drivers?.driver_name}</div>

@@ -82,7 +82,7 @@ export const fallbackEvents = [
     name: "Sandown",
     full_name: "Sandown",
     location: "Melbourne, VIC",
-    lockout_at: "2026-11-06T09:00:00+11:00",
+    lockout_at: "2026-11-07T13:00:00+11:00",
     manual_lock: false,
     number_of_races: 2,
     event_multiplier: 1,

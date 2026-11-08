@@ -165,12 +165,21 @@ export function LeaderboardClient() {
 
         setProfiles(filteredProfiles as Profile[]);
 
-        const { data: scoreData, error: scoreError } = await supabase
-          .from("fantasy_scores")
-          .select("user_id,event_id,published_score,normalised_event_score,captain_points,vice_captain_points,picks_count,status");
-
-        if (scoreError) throw scoreError;
-        setScores((scoreData ?? []) as Score[]);
+        // Supabase caps individual API responses at 1,000 rows by default.
+        // Page through every published score so new rounds appear in the overall and event ladders.
+        const allScoreRows: Score[] = [];
+        const scorePageSize = 1000;
+        for (let offset = 0; ; offset += scorePageSize) {
+          const { data: scorePage, error: scoreError } = await supabase
+            .from("fantasy_scores")
+            .select("user_id,event_id,published_score,normalised_event_score,captain_points,vice_captain_points,picks_count,status")
+            .order("id", { ascending: true })
+            .range(offset, offset + scorePageSize - 1);
+          if (scoreError) throw scoreError;
+          allScoreRows.push(...((scorePage ?? []) as Score[]));
+          if ((scorePage?.length ?? 0) < scorePageSize) break;
+        }
+        setScores(allScoreRows);
 
         const { data: teamData, error: teamError } = await supabase
           .from("fantasy_teams")

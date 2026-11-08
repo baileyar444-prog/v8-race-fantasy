@@ -180,6 +180,7 @@ function lockoutLabel(value: string | null) {
 
   function raceDisplayName(raceNumber: number) {
     if (selectedEvent?.slug === "perth") return `Race ${22 + raceNumber}`;
+    if (selectedEvent?.slug === "adelaide") return `Race ${34 + raceNumber}`;
     return `Race ${raceNumber}`;
   }
 

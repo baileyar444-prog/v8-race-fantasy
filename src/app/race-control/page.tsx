@@ -568,7 +568,7 @@ function lockoutLabel(value: string | null) {
       sandown: {
         name: "Sandown",
         full_name: "Sandown",
-        lockout_at: "2026-11-06T09:00:00+11:00",
+        lockout_at: "2026-11-07T13:00:00+11:00",
         manual_lock: false,
         is_open_event: shouldOpen,
         number_of_races: 2,
@@ -576,8 +576,8 @@ function lockoutLabel(value: string | null) {
         sort_order: 6
       },
       adelaide: {
-        name: "Adelaide",
-        full_name: "Adelaide",
+        name: "Adelaide Grand Final",
+        full_name: "2026 bp Adelaide Grand Final",
         lockout_at: "2026-11-26T09:00:00+10:30",
         manual_lock: false,
         is_open_event: shouldOpen,
@@ -653,7 +653,7 @@ function lockoutLabel(value: string | null) {
 
       if (error) throw error;
 
-      setMessage("Rounds, race counts, multipliers and lockouts synced. Bathurst is closed and the Gold Coast is open for the start of the Finals.");
+      setMessage("Rounds, race counts, multipliers and lockouts synced. Sandown is closed and the Adelaide Grand Final is open with three races and double fantasy points.");
       await loadAdminData();
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Could not apply upcoming rounds.");
@@ -692,7 +692,7 @@ function lockoutLabel(value: string | null) {
         await supabase.from("drivers").update({ is_active: false }).eq("slug", slug);
       }
 
-      setMessage("Driver standings synced. Gold Coast now has Cooper Murray in #777 PremiAir Racing and Jarrod Hughes in #99 Erebus, with Declan Fraser inactive.");
+      setMessage("Driver standings synced to the post-Sandown championship, with Adelaide Grand Final categories preserved.");
       await loadAdminData();
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Could not apply latest standings.");
@@ -1177,7 +1177,7 @@ function lockoutLabel(value: string | null) {
             <div className="pill mb-3">Saturday readiness</div>
             <h2 className="text-2xl font-black">{selectedEvent?.name ?? "No event selected"} control checklist</h2>
             <p className="mt-1 text-sm text-track-muted">
-              Ipswich is now the open round. Check this before lockout and again before publishing results.
+              Adelaide is open for the three-race Grand Final. Check the lockout before publishing results.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">

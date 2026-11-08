@@ -113,12 +113,20 @@ export function RoundStatusBanner() {
         const eventRows = (eventData ?? []) as EventRow[];
         setEvents(eventRows);
 
-        const { data: scoreData, error: scoreError } = await supabase
-          .from("fantasy_scores")
-          .select("user_id,event_id,published_score");
-
-        if (scoreError) throw scoreError;
-        setScores((scoreData ?? []) as ScoreRow[]);
+        // Fetch every round, including the latest results beyond the first 1,000 rows.
+        const allScoreRows: ScoreRow[] = [];
+        const scorePageSize = 1000;
+        for (let offset = 0; ; offset += scorePageSize) {
+          const { data: scorePage, error: scoreError } = await supabase
+            .from("fantasy_scores")
+            .select("user_id,event_id,published_score")
+            .order("id", { ascending: true })
+            .range(offset, offset + scorePageSize - 1);
+          if (scoreError) throw scoreError;
+          allScoreRows.push(...((scorePage ?? []) as ScoreRow[]));
+          if ((scorePage?.length ?? 0) < scorePageSize) break;
+        }
+        setScores(allScoreRows);
 
         const openEvent = selectCurrentEvent(eventRows);
 
@@ -189,7 +197,7 @@ export function RoundStatusBanner() {
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
               <div className="truncate text-[11px] font-black">
-                {lastScored?.event ? `${lastScored.event.name}: ${points(lastScored.score.published_score)} pts` : "Awaiting score"}
+                Latest standings · {lastScored?.event ? `${lastScored.event.name}: ${points(lastScored.score.published_score)} pts` : "Awaiting score"}
                 {myOverallRank ? ` · Overall #${myOverallRank}` : ""}
               </div>
               <div className="truncate text-[10px] font-bold text-track-muted">
@@ -205,7 +213,7 @@ export function RoundStatusBanner() {
         <div className={`hidden flex-wrap items-center justify-between gap-x-5 gap-y-2 rounded-2xl border px-3 py-2 shadow-glow sm:flex sm:px-4 xl:flex-nowrap ${finalsRound ? "finals-panel" : "border-track-orange/25 bg-track-orange/10"}`}>
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-4 gap-y-1">
             <div className="min-w-0 shrink-0">
-              <div className="text-[10px] font-black uppercase tracking-wider text-track-muted">Last round</div>
+              <div className="text-[10px] font-black uppercase tracking-wider text-track-muted">Latest standings</div>
               <div className="truncate text-sm font-black">
                 {lastScored?.event ? `${lastScored.event.name}: ${points(lastScored.score.published_score)} pts` : "Awaiting first score"}
               </div>
@@ -229,8 +237,8 @@ export function RoundStatusBanner() {
             <Link className="btn btn-primary shrink-0 px-3 py-1.5 text-xs" href="/pick-team">
               {openTeamSaved ? "Edit team" : "Pick team"}
             </Link>
-            <Link className="btn hidden shrink-0 px-3 py-1.5 text-xs lg:inline-flex" href="/leaderboard">
-              Leaderboard
+            <Link className="btn hidden shrink-0 px-3 py-1.5 text-xs lg:inline-flex" href={lastScored?.event ? `/leaderboard?event=${lastScored.event.slug}` : "/leaderboard"}>
+              Latest standings
             </Link>
             <Link className="btn hidden shrink-0 px-3 py-1.5 text-xs 2xl:inline-flex" href="/leagues?join=GRID88">
               Invite friends

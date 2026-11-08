@@ -175,15 +175,23 @@ export function HomeDashboard() {
         setOpenEvent(eventData as OpenEvent);
       }
 
-      const scoreQuery = supabase
-        .from("fantasy_scores")
-        .select("user_id,event_id,published_score");
-
-      const { data: scoreData } = currentEventIds.length
-        ? await scoreQuery.in("event_id", currentEventIds)
-        : await scoreQuery;
-
-      setAllScores((scoreData ?? []) as ScoreRow[]);
+      // Load all score pages: the published results now exceed Supabase's default 1,000-row limit.
+      const scoreRows: ScoreRow[] = [];
+      const scorePageSize = 1000;
+      for (let offset = 0; ; offset += scorePageSize) {
+        const { data: scorePage, error: scoreError } = await supabase
+          .from("fantasy_scores")
+          .select("user_id,event_id,published_score")
+          .order("id", { ascending: true })
+          .range(offset, offset + scorePageSize - 1);
+        if (scoreError) {
+          scoreRows.length = 0;
+          break;
+        }
+        scoreRows.push(...((scorePage ?? []) as ScoreRow[]));
+        if ((scorePage?.length ?? 0) < scorePageSize) break;
+      }
+      setAllScores(scoreRows);
 
       if (eventData?.id) {
         try {
